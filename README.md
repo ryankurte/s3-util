@@ -1,18 +1,17 @@
 # Another S3 command line utility
 
-A quick and _extremely_ simple utility for interacting with S3 compatible object stores because all the other tools I could find needed _configuration_ and I'm not into it.
-
-Based on [durch/rust-s3](https://github.com/durch/rust-s3).
+A quick and _extremely_ simple utility based on [durch/rust-s3](https://github.com/durch/rust-s3) for interacting with S3 compatible object stores because all the other tools I could find needed _configuration_ and I'm not into it.
 
 ## Status
-![Build](https://g
-ithub.com/ryankurte/s3-util/workflows/Rust/badge.svg)
+![Build](https://github.com/ryankurte/s3-util/workflows/Rust/badge.svg)
 [![GitHub tag](https://img.shields.io/github/tag/ryankurte/s3-util.svg)](https://github.com/ryankurte/s3-util)
 [![Crates.io](https://img.shields.io/crates/v/s3-util.svg)](https://crates.io/crates/s3-util)
 [![Docs.rs](https://docs.rs/s3-util/badge.svg)](https://docs.rs/s3-util)
 
 
 ## Usage
+
+Install via `cargo install s3-util` or `cargo binstall s3-util` if you have [`cargo-binstall`]() installed, or grab a pre-build binary from the [releases](https://github.com/ryankurte/s3-util/releases/latest) page.
 
 See `s3-util [SUBCOMMAND] --help` for information, you need to configure _all_ the options as appropriate for your object-storage provider.
 
