@@ -1,0 +1,16 @@
+[package]
+name = "s3-util"
+description = "A command line utility for interacting with S3 compatible object stores"
+repository = "https://github.com/ryankurte/s3-util"
+version = "0.1.0"
+authors = ["ryan <ryan@kurte.nz>"]
+edition = "2018"
+license = "MPL-2.0"
+
+[dependencies]
+rust-s3 = {version = "0.26.0", features = ["rustls-tls", "no-verify-ssl"]}
+async-std = { version = "1.9.0", features = ["attributes", "tokio02"] }
+structopt = "0.3.21"
+simplelog = "0.10.0"
+log = "0.4.14"
+anyhow = "1.0.40"
