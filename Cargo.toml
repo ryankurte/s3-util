@@ -5,7 +5,17 @@ repository = "https://github.com/ryankurte/s3-util"
 version = "0.1.0"
 authors = ["ryan <ryan@kurte.nz>"]
 edition = "2018"
-license = "MPL-2.0"
+license = "GPL-3.0"
+
+
+# Configuration for cargo-binstall
+[package.metadata.binstall]
+pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ target }.{ format }"
+bin-dir = "{ bin }{ format }"
+
+[package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
+pkg-fmt = "zip"
+
 
 [dependencies]
 rust-s3 = {version = "0.26.0", features = ["rustls-tls", "no-verify-ssl"]}
