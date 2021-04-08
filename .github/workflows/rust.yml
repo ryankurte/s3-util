@@ -128,7 +128,7 @@ jobs:
     - name: Push latest version to ghcr
       if: ${{ startsWith(github.ref, 'refs/tags/v') }}
       run: |
-        docker tag s3-util:${GITHUB_SHA::8} ghcr.io/ryankurte/s3-util:${GITHUB_REF}
-        docker push ghcr.io/ryankurte/s3-util:${GITHUB_REF}
+        docker tag s3-util:${GITHUB_SHA::8} ghcr.io/ryankurte/s3-util:${GITHUB_REF_NAME}
+        docker push ghcr.io/ryankurte/s3-util:${GITHUB_REF_NAME}
         docker tag s3-util:${GITHUB_SHA::8} ghcr.io/ryankurte/s3-util:latest
         docker push ghcr.io/ryankurte/s3-util:latest
