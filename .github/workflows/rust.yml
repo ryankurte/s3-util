@@ -56,6 +56,7 @@ jobs:
         path: |
           ${{ env.HOME }}/.cargo"
           target
+
     - name: Install cross toolchain (armv7)
       if: ${{ matrix.target == 'armv7-unknown-linux-gnueabihf' }}
       run: sudo apt install gcc-arm-linux-gnueabihf
@@ -82,7 +83,7 @@ jobs:
     
     - name: Create archive (zip)
       if: ${{ matrix.target == 'x86_64-pc-windows-msvc' }}
-      run: zip s3-util-${{ matrix.target }}.zip ${{ matrix.output }}
+      run: tar.exe -a -c -f s3-util-${{ matrix.target }}.zip ${{ matrix.output }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v1

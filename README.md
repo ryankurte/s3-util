@@ -41,3 +41,8 @@ SUBCOMMANDS:
     list        Show items in bucket
     upload      Upload an item to the bucket
 ```
+
+
+## Alternatives
+
+- [s3cmd](https://github.com/s3tools/s3cmd)
