@@ -2,7 +2,7 @@
 name = "s3-util"
 description = "A command line utility for interacting with S3 compatible object stores"
 repository = "https://github.com/ryankurte/s3-util"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["ryan <ryan@kurte.nz>"]
 edition = "2018"
 license = "GPL-3.0"
