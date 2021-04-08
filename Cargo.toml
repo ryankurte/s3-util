@@ -18,7 +18,7 @@ pkg-fmt = "zip"
 
 
 [dependencies]
-rust-s3 = {version = "0.26.0", features = ["rustls-tls", "no-verify-ssl"]}
+rust-s3 = {version = "0.26.0", features = ["rustls-tls", "no-verify-ssl"], default-features = false }
 async-std = { version = "1.9.0", features = ["attributes", "tokio02"] }
 structopt = "0.3.21"
 simplelog = "0.10.0"

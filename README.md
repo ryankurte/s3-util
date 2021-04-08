@@ -11,7 +11,7 @@ A quick and _extremely_ simple utility based on [durch/rust-s3](https://github.c
 
 ## Usage
 
-Install via `cargo install s3-util` or `cargo binstall s3-util` if you have [`cargo-binstall`]() installed, or grab a pre-build binary from the [releases](https://github.com/ryankurte/s3-util/releases/latest) page.
+Install via `cargo install s3-util` to build from source, `cargo binstall s3-util` to fetch a binary if you have [`cargo-binstall`](https://github.com/ryankurte/cargo-binstall) available, or grab a pre-build binary from the [releases](https://github.com/ryankurte/s3-util/releases/latest) or a docker container from `ghcr.io/ryankurte/s3-util`.
 
 See `s3-util [SUBCOMMAND] --help` for information, you need to configure _all_ the options as appropriate for your object-storage provider.
 
