@@ -1,5 +1,5 @@
 
-use log::{info, LevelFilter};
+use log::{info, error, LevelFilter};
 use structopt::StructOpt;
 use simplelog::{SimpleLogger, Config as LogConfig};
 
@@ -8,6 +8,8 @@ use s3::{
     region::Region,
     bucket::Bucket,
 };
+
+use glob::glob as globber;
 
 #[derive(Clone, PartialEq, Debug, StructOpt)]
 pub struct Options {
@@ -49,6 +51,14 @@ pub enum Command {
         name: String,
         /// File to upload
         file: String,
+    },
+    /// Upload files from a directory
+    UploadDir{
+        /// Prefix for files in bucket
+        #[structopt(long, default_value="")]
+        prefix: String,
+        /// Glob for matching files to upload
+        glob: String,
     },
     /// Download an item from the bucket
     Download{
@@ -100,6 +110,41 @@ async fn main() -> Result<(), anyhow::Error> {
 
             info!("Upload complete");
         },
+        Command::UploadDir{ prefix, glob } => {
+            let mut count = 0usize;
+            for e in globber(glob)? {
+                // For each viable path
+                let p = match e {
+                    Ok(p) => p,
+                    Err(e) => {
+                        error!("Error reading file: {:?}", e);
+                        continue;
+                    }
+                };
+
+                // Grab the file name
+                let f = match p.file_name() {
+                    Some(n) => n.to_str().unwrap(),
+                    None => continue,
+                };
+
+                let n = format!("{}{}", prefix, f);
+
+                info!("Uploading {} as {}", p.to_str().unwrap(), f);
+
+                // Upload the file
+                let data = std::fs::read(p)?;
+                let (_, code) = bucket.put_object(n, &data).await?;
+                if code != 200 {
+                    return Err(anyhow::anyhow!("Error uploading object: {}", code));
+                }
+
+                count += 1;
+            }
+
+            info!("Uploaded {} files", count);
+
+        }
         Command::Download{ name, file } => {
             info!("Fetching object: '{}'", name);
             let (data, code) = bucket.get_object(name).await?;
