@@ -13,7 +13,14 @@ A quick and _extremely_ simple utility based on [durch/rust-s3](https://github.c
 
 Install via `cargo install s3-util` to build from source, `cargo binstall s3-util` to fetch a binary if you have [`cargo-binstall`](https://github.com/ryankurte/cargo-binstall) available, or grab a pre-build binary from the [releases](https://github.com/ryankurte/s3-util/releases/latest) or a docker container from `ghcr.io/ryankurte/s3-util`.
 
-See `s3-util [SUBCOMMAND] --help` for information, you need to configure _all_ the options as appropriate for your object-storage provider.
+Examples:
+
+- `s3-util upload dir/something.txt ./localfile.txt` to upload `localfile.txt` to `dir/something.txt` in the bucket
+- `s3-util upload dir/something.txt ./*.txt` to glob for a file matching `./*.txt` and upload to `dir/something.txt` in the bucket
+- `s3-util upload-dir prefix/ ./*.txt` to upload each file matching `./*.txt` with the prefix `prefix/`
+
+
+See `s3-util [SUBCOMMAND] --help` for more information, you need to configure _all_ the options as appropriate for your object-storage provider (specifically: `ACCESS_KEY`, `S3_BUCKET`, `S3_ENDPOINT`, `S3_REGION` and `SECRET_KEY`).
 
 ```
 s3-util 0.1.0
@@ -39,6 +46,7 @@ SUBCOMMANDS:
     help        Prints this message or the help of the given subcommand(s)
     list        Show items in bucket
     upload      Upload an item to the bucket
+    upload-dir    Upload files from a directory
 ```
 
 
