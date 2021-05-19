@@ -99,8 +99,17 @@ async fn main() -> Result<(), anyhow::Error> {
             }
         },
         Command::Upload{ name, file } => {
-            info!("Loading file '{}'", file);
-            let data = std::fs::read(file)?;
+            let files: Vec<_> = globber(file)?.filter_map(|v| v.ok() ).collect();
+            
+            if files.len() == 0 {
+                return Err(anyhow::anyhow!("No matching file found"));
+            } else if files.len() > 1 {
+                return Err(anyhow::anyhow!("Too many matching files"));
+            }
+            let f = &files[0];
+
+            info!("Loading file '{}'", f.to_str().unwrap());
+            let data = std::fs::read(f)?;
 
             info!("Uploading object: '{}'", name);
             let (_, code) = bucket.put_object(name, &data).await?;
