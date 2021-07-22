@@ -19,6 +19,7 @@ Examples:
 - `s3-util upload dir/something.txt ./*.txt` to glob for a file matching `./*.txt` and upload to `dir/something.txt` in the bucket
 - `s3-util upload-dir prefix/ ./*.txt` to upload each file matching `./*.txt` with the prefix `prefix/`
 
+You can also set the ACL with `--acl`, for example: `--acl=public-read` for a public bucket
 
 See `s3-util [SUBCOMMAND] --help` for more information, you need to configure _all_ the options as appropriate for your object-storage provider (specifically: `ACCESS_KEY`, `S3_BUCKET`, `S3_ENDPOINT`, `S3_REGION` and `SECRET_KEY`).
 

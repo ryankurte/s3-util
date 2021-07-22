@@ -51,6 +51,9 @@ pub enum Command {
         name: String,
         /// File to upload
         file: String,
+        #[structopt(long)]
+        /// Set ACLs
+        acl: Option<String>,
     },
     /// Upload files from a directory
     UploadDir{
@@ -59,6 +62,9 @@ pub enum Command {
         prefix: String,
         /// Glob for matching files to upload
         glob: String,
+        #[structopt(long)]
+        /// Set ACLs
+        acl: Option<String>,
     },
     /// Download an item from the bucket
     Download{
@@ -88,7 +94,7 @@ async fn main() -> Result<(), anyhow::Error> {
     let region = Region::Custom{ region: opts.region, endpoint: opts.endpoint };
 
     // Setup storage
-    let bucket = Bucket::new(&opts.bucket, region, creds)?;
+    let mut bucket = Bucket::new(&opts.bucket, region, creds)?;
 
     // Execute command
     match &opts.command {
@@ -98,7 +104,7 @@ async fn main() -> Result<(), anyhow::Error> {
                 println!("{:?}", list);
             }
         },
-        Command::Upload{ name, file } => {
+        Command::Upload{ name, file, acl } => {
             let files: Vec<_> = globber(file)?.filter_map(|v| v.ok() ).collect();
             
             if files.len() == 0 {
@@ -111,6 +117,11 @@ async fn main() -> Result<(), anyhow::Error> {
             info!("Loading file '{}'", f.to_str().unwrap());
             let data = std::fs::read(f)?;
 
+            // Set ACL
+            if let Some(acl) = acl {
+                bucket.add_header("x-amz-acl", acl);
+            }
+
             info!("Uploading object: '{}'", name);
             let (_, code) = bucket.put_object(name, &data).await?;
             if code != 200 {
@@ -119,7 +130,7 @@ async fn main() -> Result<(), anyhow::Error> {
 
             info!("Upload complete");
         },
-        Command::UploadDir{ prefix, glob } => {
+        Command::UploadDir{ prefix, glob, acl } => {
             let mut count = 0usize;
             for e in globber(glob)? {
                 // For each viable path
@@ -138,6 +149,11 @@ async fn main() -> Result<(), anyhow::Error> {
                 };
 
                 let n = format!("{}{}", prefix, f);
+
+                // Set ACL
+                if let Some(acl) = acl {
+                    bucket.add_header("x-amz-acl", acl);
+                }
 
                 info!("Uploading {} as {}", p.to_str().unwrap(), f);
 
